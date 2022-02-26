@@ -1,6 +1,6 @@
 const getGoods = () => {
     const links = document.querySelectorAll('.navigation-link')
-
+    const more = document.querySelector('.more')
 
     const renderGoods = (goods) => {
         const goodsConteiner = document.querySelector('.long-goods-list')
@@ -30,7 +30,7 @@ const getGoods = () => {
     }
 
     const getData = (value, category) => {
-        fetch('/db/db.json')
+        fetch('db/db.json')
             .then((res) => res.json())
             .then((data) => {
                 const array = category ? data.filter((item) => item[category] === value) : data //отфил-ем массив по категю и значю
@@ -43,9 +43,8 @@ const getGoods = () => {
                     или упрощенно category ? console.log('есть') : console.log('нет')}*/
 
                 localStorage.setItem('goods', JSON.stringify(array)) //сохраняем в localStorage
-
-                if (window.location.pathname !== "/goods.html") {
-                    window.location.href = 'goods.html'
+                if (window.location.pathname !== "/wildberris/goods.html") {
+                    window.location.href = '/wildberris/goods.html'
                 } else {
                     renderGoods(array)
                 }
@@ -66,6 +65,16 @@ const getGoods = () => {
     if (localStorage.getItem('goods') && window.location.pathname === "/goods.html") {
         renderGoods(JSON.parse(localStorage.getItem('goods')))
     }
+
+
+    if (more) {
+        more.addEventListener('click', () => {
+            event.preventDefault()
+
+            getData()
+        })
+    }
+
 }
 
 
